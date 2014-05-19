@@ -6,6 +6,8 @@ using namespace std;
 enum ActivationFunction
 {
 	Linear,
+	Sigmoidal,
+	Bias,
 	//Next will come
 };
 

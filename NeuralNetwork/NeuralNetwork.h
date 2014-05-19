@@ -5,7 +5,7 @@
 
 using namespace std;
 
-template <typename FloatingNumber>
+template <typename FloatingNumber = double>
 class NeuralNetwork
 {
 
