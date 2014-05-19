@@ -13,6 +13,14 @@ class Neuron
 
 	vector<double> wages;
 
+	double LinearCombination(const vector<double>& input)
+	{
+		double res = 0;
+		for (int i = 0; i < wages.size(); ++i)
+			res += wages[i]*input[i];
+		return res;
+	}
+
 public:
 	Neuron(int size)
 	{
@@ -22,6 +30,19 @@ public:
 		for (int i = 0; i < size; ++i)
 			wages[i] = ((double)(rand() % 100000))/10000;
 	}
+
+	double ActivationFunction(const vector<double>& input)
+	{
+		switch (this->type)
+		{
+		case Linear:
+			return LinearCombination(input);
+			break;
+		default:
+			break;
+		}
+	}
+
 
 };
 
