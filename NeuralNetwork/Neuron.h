@@ -8,7 +8,7 @@
 
 using namespace std;
 
-template <typename FloatingNumber = double>
+template <typename FloatingNumber = long double>
 class Neuron
 {
 	static const FloatingNumber beta = 100;
@@ -73,7 +73,7 @@ public:
 	Neuron(int size)
 	{
 		srand(time(NULL));
-		type = Linear;
+		type = Sigma;
 		wages = vector<FloatingNumber>(size);
 		for (int i = 0; i < size; ++i)
 			wages[i] = ((FloatingNumber)(rand() % 100000)) / 10000;
