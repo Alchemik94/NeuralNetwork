@@ -4,15 +4,14 @@
 #include "Types.h"
 #include <vector>
 #include <time.h>
+#include <cmath>
 
 using namespace std;
 
 template <typename FloatingNumber = double>
 class Neuron
 {
-	ActivationFunction type;
-
-	vector<FloatingNumber> wages;
+	static const FloatingNumber beta = 100;
 
 	FloatingNumber LinearCombination(const vector<FloatingNumber>& input) const
 	{
@@ -22,20 +21,13 @@ class Neuron
 		return res;
 	}
 
-	const FloatingNumber Sigma(const FloatingNumber& linearCombination) const
+	FloatingNumber Sigma(const FloatingNumber& linearCombination) const
 	{
-		//TODO
-		;
+		return ((FloatingNumber)(1))/((FloatingNumber)(1)+(FloatingNumber)(expl(-beta*linearCombination));
 	}
-
-public:
-	Neuron(int size)
+	FloatingNumber SigmaDerivative(const FloatingNumber& linearCombination) const
 	{
-		srand(time(NULL));
-		type = Linear;
-		wages = vector<FloatingNumber>(size);
-		for (int i = 0; i < size; ++i)
-			wages[i] = ((FloatingNumber)(rand() % 100000)) / 10000;
+		return beta*Sigma(linearCombination)*((FloatingNumber)(1) - Sigma(linearCombination));
 	}
 
 	FloatingNumber ActivationFunction(const vector<FloatingNumber>& input) const
@@ -55,8 +47,51 @@ public:
 			break;
 		}
 	}
+	FloatingNumber ActivationFunctionDerivative(const vector<FloatingNumber>& input) const
+	{
+		switch (this->type)
+		{
+		case Linear:
+			return (FloatingNumber)(1);
+			break;
+		case Sigmoidal:
+			return SigmaDerivative(LinearCombination(input));
+			break;
+		case Bias:
+			return (FloatingNumber)(0);
+			break;
+		default:
+			break;
+		}
+	}
 
+public:
+	vector<FloatingNumber> wages;
 
+	ActivationFunction type;
+	
+	Neuron(int size)
+	{
+		srand(time(NULL));
+		type = Linear;
+		wages = vector<FloatingNumber>(size);
+		for (int i = 0; i < size; ++i)
+			wages[i] = ((FloatingNumber)(rand() % 100000)) / 10000;
+	}
+
+	FloatingNumber Use(const vector<FloatingNumber>& input) const
+	{
+		return ActivationFunction(input);
+	}
+	void Teach(const FloatingNumber& error, const FloatingNumber& learningCoefficient, const vector<FloatingNumber>& input)
+	{
+		if (type == Bias) return;
+		FloatingNumber derivative = ActivationFunctionDerivative(input);
+		for (int i = 0; i < wages.size(); ++i)
+		{
+			wages[i] += learningCoefficient*error*derivative*input[i];
+		}
+	}
 };
 
 #endif
