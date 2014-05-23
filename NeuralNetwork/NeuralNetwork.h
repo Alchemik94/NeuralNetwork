@@ -39,8 +39,17 @@ public:
 
 	vector<FloatingNumber> Use(const vector<FloatingNumber>& input)
 	{
-
-
+		vector<FloatingNumber> tmp, result;
+		tmp = input;
+		for (int i = 0; i < network.size(); ++i)
+		{
+			result.clear();
+			result.reserve(network[i].size());
+			for (int j = 0; j < network[i].size(); ++j)
+				result[j] = network[i][j].Use(tmp);
+			tmp = result;
+		}
+		return result;
 	}
 	
 

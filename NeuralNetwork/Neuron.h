@@ -23,7 +23,7 @@ class Neuron
 
 	FloatingNumber Sigma(const FloatingNumber& linearCombination) const
 	{
-		return ((FloatingNumber)(1))/((FloatingNumber)(1)+(FloatingNumber)(expl(-beta*linearCombination));
+		return ((FloatingNumber)(1))/((FloatingNumber)(1)+(FloatingNumber)(expl(-beta*linearCombination)));
 	}
 	FloatingNumber SigmaDerivative(const FloatingNumber& linearCombination) const
 	{
@@ -68,7 +68,7 @@ class Neuron
 public:
 	vector<FloatingNumber> wages;
 
-	ActivationFunction type;
+	enum ActivationFunction type;
 	
 	Neuron(int size)
 	{
