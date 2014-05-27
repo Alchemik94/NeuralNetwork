@@ -35,13 +35,13 @@ class Neuron
 		switch (this->type)
 		{
 		case Linear:
-			return lastResult = LinearCombination(input);
+			return LinearCombination(input);
 			break;
 		case Sigmoidal:
-			return lastResult = Sigma(LinearCombination(input));
+			return Sigma(LinearCombination(input));
 			break;
 		case Bias:
-			return lastResult = (FloatingNumber)(1);
+			return (FloatingNumber)(1);
 			break;
 		default:
 			break;
@@ -83,7 +83,7 @@ public:
 
 	FloatingNumber Use(const vector<FloatingNumber>& input) const
 	{
-		return ActivationFunction(input);
+		return lastResult = ActivationFunction(input);
 	}
 	void Teach(const FloatingNumber& error, const FloatingNumber& learningCoefficient, const vector<FloatingNumber>& input)
 	{

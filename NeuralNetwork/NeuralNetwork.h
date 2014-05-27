@@ -25,7 +25,7 @@ class NeuralNetwork
 
 	FloatingNumber LearningCoefficientForIthEpoch(const int& currentEpoch, const int& maxEpochs) const
 	{
-		return sqrt(learningCoefficientLow*learningCoefficientLow*((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))) + learningCoefficientHigh*learningCoefficientHigh*(1 - ((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))));
+		return sqrt(learningCoefficientLow*learningCoefficientLow*((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))) + learningCoefficientHigh*learningCoefficientHigh*(1 - ((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs)))));
 	}
 
 	FloatingNumber ErrorOnHidden(const int& layer, const int& neuronNumber, const vector<vector<FloatingNumber> >& error)
@@ -60,10 +60,18 @@ class NeuralNetwork
 
 	void TeachCase(const vector<FloatingNumber>& input, const vector<FloatingNumber>& output, const FloatingNumber& learningCoefficient)
 	{
-		//TODO
 		Use(input);
 		vector<vector<FloatingNumber> > error = ErrorValues(input,output);
-		
+		vector<FloatingNumber> currentInput = input;
+
+		for (int i = 0; i < network.size(); ++i)
+		{
+			for (int j = 0; j < network[i].size(); ++j)
+				network[i][j].Teach(error[i][j], learningCoefficient, currentInput);
+			currentInput.clear();
+			for (int j = 0; j < network[i].size(); ++j)
+				currentInput.push_back(network[i][j].lastResult);
+		}
 	}
 
 public:
