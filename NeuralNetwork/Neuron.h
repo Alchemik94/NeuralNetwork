@@ -35,13 +35,13 @@ class Neuron
 		switch (this->type)
 		{
 		case Linear:
-			return LinearCombination(input);
+			return lastResult = LinearCombination(input);
 			break;
 		case Sigmoidal:
-			return Sigma(LinearCombination(input));
+			return lastResult = Sigma(LinearCombination(input));
 			break;
 		case Bias:
-			return (FloatingNumber)(1);
+			return lastResult = (FloatingNumber)(1);
 			break;
 		default:
 			break;
@@ -67,6 +67,8 @@ class Neuron
 
 public:
 	vector<FloatingNumber> wages;
+
+	FloatingNumber lastResult;
 
 	enum ActivationFunction type;
 	

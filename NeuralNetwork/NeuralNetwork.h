@@ -28,9 +28,33 @@ class NeuralNetwork
 		return sqrt(learningCoefficientLow*learningCoefficientLow*((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))) + learningCoefficientHigh*learningCoefficientHigh*(1 - ((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))));
 	}
 
-	void TeachCase(vector<FloatingNumber>& input, vector<FloatingNumber>& output, FloatingNumber& learningCoefficient)
+	FloatingNumber ErrorOnHidden(const int& layer, const int& neuronNumber, const vector<vector<FloatingNumber> >& error)
 	{
 		//TODO
+	}
+
+	void TeachCase(const vector<FloatingNumber>& input, const vector<FloatingNumber>& output, const FloatingNumber& learningCoefficient)
+	{
+		//TODO
+		vector<vector<FloatingNumber> > error(network.size(), vector<FloatingNumber>());
+		Use(input);
+
+//error consideration
+		//output layer
+		error[error.size() - 1] = vector<FloatingNumber>(network[network.size() - 1].size());
+		for (int i = 0; i < network[network.size() - 1].size(); ++i)
+			error[error.size() - 1][i] = MeanSquaredError(network[network.size() - 1][i].lastResult, output[i]);
+		
+		//rest of the layers
+		for (int i = network.size()-2; i >=0; --i)
+		{
+			error[i] = vector<FloatingNumber>(network[i].size());
+
+			//error for each neuron
+			for (int j = 0; j < network[i].size(); ++j)
+				error[i][j] = ErrorOnHidden(i, j, error);
+
+		}
 	}
 
 public:
