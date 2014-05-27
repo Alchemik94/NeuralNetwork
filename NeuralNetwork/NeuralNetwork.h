@@ -1,7 +1,11 @@
 #ifndef __NEURAL_NETWORK__
 #define __NEURAL_NETWORK__
 
+#define ABS(x) (x) >= 0 ? (x) : (-(x))
+
 #include "Neuron.h"
+#include <list>
+#include <math.h>
 #include <vector>
 
 using namespace std;
@@ -14,9 +18,19 @@ class NeuralNetwork
 	static const FloatingNumber learningCoefficientLow = 0.2;
 	static const FloatingNumber learningCoefficientHigh = 0.9;
 
-	FloatingNumber MeanSquaredError(const FloatingNumber& given, const FloatingNumber& expected)
+	FloatingNumber MeanSquaredError(const FloatingNumber& given, const FloatingNumber& expected) const
 	{
 		return ((FloatingNumber)(0.5))*((FloatingNumber)(given - expected))*((FloatingNumber)(given - expected));
+	}
+
+	FloatingNumber LearningCoefficientForIthEpoch(const int& currentEpoch, const int& maxEpochs) const
+	{
+		return sqrt(learningCoefficientLow*learningCoefficientLow*((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))) + learningCoefficientHigh*learningCoefficientHigh*(1 - ((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))));
+	}
+
+	void TeachCase(vector<FloatingNumber>& input, vector<FloatingNumber>& output, FloatingNumber& learningCoefficient)
+	{
+		//TODO
 	}
 
 public:
@@ -52,6 +66,17 @@ public:
 		return result;
 	}
 	
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs)
+	{
+		auto it = teachingSet.begin();
+		FloatingNumber learningCoefficient;
+		for (int i = 0; i < epochs; ++i)
+		{
+			learningCoefficient = LearningCoefficientForIthEpoch(i,epochs);
+			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
+				TeachCase(it->first, it->second, learningCoefficient);
+		}
+	}
 
 };
 

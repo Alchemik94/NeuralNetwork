@@ -11,7 +11,7 @@ using namespace std;
 template <typename FloatingNumber = long double>
 class Neuron
 {
-	static const FloatingNumber beta = 100;
+	static const FloatingNumber beta = 1;
 
 	FloatingNumber LinearCombination(const vector<FloatingNumber>& input) const
 	{
