@@ -35,23 +35,23 @@ class NeuralNetwork
 	{
 		FloatingNumber result = 0;
 		for (int i = 0; i < network[layer + 1].size(); ++i)
-			result += (error[layer + 1][i] * network[layer][i].wages[neuronNumber]);
+			result += (error[layer + 1][i] * network[layer + 1][i].wages[neuronNumber]);
 		return result;
 	}
 
 	vector<vector<FloatingNumber> > ErrorValues(const vector<FloatingNumber>& input, const vector<FloatingNumber>& output)
 	{
-		vector<vector<FloatingNumber> > error(network.size(), vector<FloatingNumber>());
+		vector<vector<FloatingNumber> > error(network.size());
 
 		//output layer
-		error[error.size() - 1] = vector<FloatingNumber>(network[network.size() - 1].size());
+		error[error.size() - 1].resize(network[network.size() - 1].size());
 		for (int i = 0; i < network[network.size() - 1].size(); ++i)
 			error[error.size() - 1][i] = MeanSquaredError(network[network.size() - 1][i].lastResult, output[i]);
 
 		//rest of the layers
 		for (int i = network.size() - 2; i >= 0; --i)
 		{
-			error[i] = vector<FloatingNumber>(network[i].size());
+			error[i].resize(network[i].size());
 
 			//error for each neuron
 			for (int j = 0; j < network[i].size(); ++j)
@@ -144,7 +144,7 @@ public:
 		for (int i = 0; i < network.size(); ++i)
 		{
 			result.clear();
-			result.reserve(network[i].size());
+			result.resize(network[i].size());
 			for (int j = 0; j < network[i].size(); ++j)
 				result[j] = network[i][j].Use(tmp);
 			tmp = result;

@@ -78,7 +78,7 @@ public:
 		lastResult = 0;
 		wages = vector<FloatingNumber>(size);
 		for (int i = 0; i < size; ++i)
-			wages[i] = ((FloatingNumber)(rand() % 100000)) / 10000;
+			wages[i] = ((FloatingNumber)(rand() % 200000 - 100000)) / 100000;
 	}
 	Neuron(){}
 
@@ -94,6 +94,14 @@ public:
 		{
 			wages[i] += learningCoefficient*error*derivative*input[i];
 		}
+	}
+
+	Neuron& operator=(const Neuron& neuron)
+	{
+		wages = neuron.wages;
+		lastResult = neuron.lastResult;
+		type = neuron.type;
+		return *this;
 	}
 };
 
