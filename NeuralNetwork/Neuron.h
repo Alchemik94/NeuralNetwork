@@ -76,6 +76,7 @@ public:
 	{
 		srand(time(NULL));
 		type = Sigma;
+		lastResult = 0;
 		wages = vector<FloatingNumber>(size);
 		for (int i = 0; i < size; ++i)
 			wages[i] = ((FloatingNumber)(rand() % 100000)) / 10000;

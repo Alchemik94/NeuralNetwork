@@ -12,7 +12,7 @@ class Parser
 	public:
 		static vector<FloatingNumber> Parse()
 		{
-
+			//TODO
 		}
 };
 

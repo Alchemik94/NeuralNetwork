@@ -7,6 +7,8 @@
 #include <list>
 #include <math.h>
 #include <vector>
+#include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -32,14 +34,14 @@ class NeuralNetwork
 	{
 		FloatingNumber result = 0;
 		for (int i = 0; i < network[layer + 1].size(); ++i)
-			result += (error[layer+1][i] * network[layer][i].wages[neuronNumber]);
+			result += (error[layer + 1][i] * network[layer][i].wages[neuronNumber]);
 		return result;
 	}
 
 	vector<vector<FloatingNumber> > ErrorValues(const vector<FloatingNumber>& input, const vector<FloatingNumber>& output)
 	{
 		vector<vector<FloatingNumber> > error(network.size(), vector<FloatingNumber>());
-		
+
 		//output layer
 		error[error.size() - 1] = vector<FloatingNumber>(network[network.size() - 1].size());
 		for (int i = 0; i < network[network.size() - 1].size(); ++i)
@@ -61,7 +63,7 @@ class NeuralNetwork
 	void TeachCase(const vector<FloatingNumber>& input, const vector<FloatingNumber>& output, const FloatingNumber& learningCoefficient)
 	{
 		Use(input);
-		vector<vector<FloatingNumber> > error = ErrorValues(input,output);
+		vector<vector<FloatingNumber> > error = ErrorValues(input, output);
 		vector<FloatingNumber> currentInput = input;
 
 		for (int i = 0; i < network.size(); ++i)
@@ -83,13 +85,49 @@ public:
 		network.clear();
 		network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[0], Neuron(1)));
 		network[0][structureDescription[0]].type = Bias;
-		for (int i = 1; i < structureDescription.size()-1; ++i)
+		for (int i = 1; i < structureDescription.size() - 1; ++i)
 		{
 			network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[i] + 1, Neuron(network[i - 1].size())));
 			network[i][structureDescription[i]].type = Bias;
 		}
 		network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[structureDescription.size() - 1], Neuron(structureDescription[structureDescription.size() - 2] + 1)));
 
+	}
+
+	//Constructing from file
+	NeuralNetwork(const string& filename)
+	{
+		fstream in;
+		in.open(filename.c_str(), ios_base::in);
+
+		int tmp;
+		in >> tmp;
+		network = vector<vector<Neuron<FloatingNumber> > >(tmp, vector<Neuron<FloatingNumber> >());
+		
+		//for every layer
+		for (int i = 0; i < network.size(); ++i)
+		{
+			//number of neurons
+			in >> tmp;
+			network[i].resize(tmp);
+			//for every neuron
+			for (int j = 0; j < network[i].size(); ++j)
+			{
+				//number of wages
+				in >> tmp;
+				network[i][j].resize(tmp);
+				//every wage
+				for (int k = 0; k < network[i][j].wages.size(); ++k)
+				{
+					in >> network[i][j].wages[k];
+				}
+				//and type of activation function
+				in >> tmp;
+				network[i][j].type = (ActivationFunction)tmp;
+			}
+		}
+
+		in.close();
 	}
 
 	vector<FloatingNumber> Use(const vector<FloatingNumber>& input)
@@ -106,19 +144,48 @@ public:
 		}
 		return result;
 	}
-	
+
 	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs)
 	{
 		auto it = teachingSet.begin();
 		FloatingNumber learningCoefficient;
 		for (int i = 0; i < epochs; ++i)
 		{
-			learningCoefficient = LearningCoefficientForIthEpoch(i,epochs);
+			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
 				TeachCase(it->first, it->second, learningCoefficient);
 		}
 	}
 
+	void Save(const string& filename)
+	{
+		fstream out;
+		out.open(filename.c_str(), ios_base::out);
+
+		out << network.size() << "\n";
+
+		//for every layer
+		for (int i = 0; i < network.size(); ++i)
+		{
+			out << network[i].size() << "\n";
+			//for every neuron
+			for (int j = 0; j < network[i].size(); ++j)
+			{
+				//number of wages
+				out << network[i][j].wages.size() << "\n";
+				//every wage
+				for (int k = 0; k < network[i][j].wages.size(); ++k)
+				{
+					out << network[i][j].wages[k] << " ";
+				}
+				out << "\n";
+				//and type of activation function
+				out << (int)network[i][j].type << "\n";
+			}
+		}
+
+		out.close();
+	}
 };
 
 #endif
