@@ -74,15 +74,15 @@ public:
 	
 	Neuron(int size)
 	{
-		srand(time(NULL));
 		type = ActivationFunction::Sigmoidal;
 		lastResult = 0;
 		wages = vector<FloatingNumber>(size);
 		for (int i = 0; i < size; ++i)
 			wages[i] = ((FloatingNumber)(rand() % 100000)) / 10000;
 	}
+	Neuron(){}
 
-	FloatingNumber Use(const vector<FloatingNumber>& input) const
+	FloatingNumber Use(const vector<FloatingNumber>& input)
 	{
 		return lastResult = ActivationFunction(input);
 	}

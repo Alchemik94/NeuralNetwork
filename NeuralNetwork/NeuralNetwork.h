@@ -6,6 +6,7 @@
 #include "Neuron.h"
 #include <list>
 #include <math.h>
+#include <time.h>
 #include <vector>
 #include <string>
 #include <fstream>
@@ -80,23 +81,29 @@ public:
 	//Network has to have at least two layers: input and output
 	NeuralNetwork(const vector<int>& structureDescription)
 	{
+		srand(time(NULL));
 		if (structureDescription.size() < 2)
 			throw;
 		network.clear();
-		network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[0], Neuron<FloatingNumber>(1)));
-		network[0][structureDescription[0]].type = Bias;
+		network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[0]));
+		for (int i = 0; i < network[0].size(); ++i)
+			network[0][i] = Neuron<FloatingNumber>(1);
 		for (int i = 1; i < structureDescription.size() - 1; ++i)
 		{
-			network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[i] + 1, Neuron<FloatingNumber>(network[i - 1].size())));
+			network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[i] + 1));
+			for (int j = 0; j < network[i].size(); ++j)
+				network[i][j] = Neuron<FloatingNumber>(network[i - 1].size());
 			network[i][structureDescription[i]].type = Bias;
 		}
-		network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[structureDescription.size() - 1], Neuron<FloatingNumber>(structureDescription[structureDescription.size() - 2] + 1)));
-
+		network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[structureDescription.size() - 1]));
+		for (int i = 0; i < network[network.size() - 1].size(); ++i)
+			network[network.size() - 1][i] = Neuron<FloatingNumber>(structureDescription[structureDescription.size() - 2] + 1);
 	}
 
 	//Constructing from file
 	NeuralNetwork(const string& filename)
 	{
+		srand(time(NULL));
 		fstream in;
 		in.open(filename.c_str(), ios_base::in);
 
@@ -115,7 +122,7 @@ public:
 			{
 				//number of wages
 				in >> tmp;
-				network[i][j].resize(tmp);
+				network[i][j].wages.resize(tmp);
 				//every wage
 				for (int k = 0; k < network[i][j].wages.size(); ++k)
 				{
