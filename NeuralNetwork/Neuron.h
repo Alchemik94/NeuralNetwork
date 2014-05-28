@@ -11,7 +11,7 @@ using namespace std;
 template <typename FloatingNumber = long double>
 class Neuron
 {
-	static const FloatingNumber beta = 1;
+	const FloatingNumber beta = 1;
 
 	FloatingNumber LinearCombination(const vector<FloatingNumber>& input) const
 	{
@@ -75,7 +75,7 @@ public:
 	Neuron(int size)
 	{
 		srand(time(NULL));
-		type = Sigma;
+		type = ActivationFunction::Sigmoidal;
 		lastResult = 0;
 		wages = vector<FloatingNumber>(size);
 		for (int i = 0; i < size; ++i)

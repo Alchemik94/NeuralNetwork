@@ -6,24 +6,19 @@
 
 class Tester
 {
-	NeuralNetwork<> network;
-
+	
 	const long double epsilon = 0.0001;
 
 public:
-	Tester()
+	void Test()
 	{
+		//first test is to perform xor operation
 		vector<int> structure;
 		structure.push_back(2);
 		structure.push_back(4);
 		structure.push_back(4);
 		structure.push_back(2);
-		network = NeuralNetwork<>(structure);
-	}
-	
-	void Test()
-	{
-		//first test is to perform xor operation
+		NeuralNetwork<> network(structure);
 
 
 
