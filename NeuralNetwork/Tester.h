@@ -23,6 +23,8 @@ public:
 		//structure.push_back(15);
 		//structure.push_back(25);
 		//structure.push_back(15);
+		structure.push_back(8);
+		structure.push_back(8);
 		structure.push_back(4);
 		structure.push_back(1);
 		NeuralNetwork<> network(structure);
@@ -38,11 +40,13 @@ public:
 			out.clear();
 			in.push_back(j);
 			in.push_back(i);
-			out.push_back(((i == 1) && (j == 0)) || ((i == 0) && (j == 1)));
+			//out.push_back(1);
+			cout << ((((i == 1) && (j == 0)) || ((i == 0) && (j == 1))) == 1) << "\n";
+			out.push_back((((i == 1) && (j == 0)) || ((i == 0) && (j == 1)))==1);
 			teachingSet.push_back(make_pair(in, out));
 		}
 
-		network.Teach(teachingSet, 5);
+		network.Teach(teachingSet, 50000);
 		network.Save("xor.net");
 
 		cout << "NN2:\n";

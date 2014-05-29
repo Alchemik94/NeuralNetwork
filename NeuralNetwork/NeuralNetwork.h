@@ -23,7 +23,8 @@ class NeuralNetwork
 
 	FloatingNumber MeanSquaredError(const FloatingNumber& given, const FloatingNumber& expected) const
 	{
-		return ((FloatingNumber)(0.5))*((FloatingNumber)(given - expected))*((FloatingNumber)(given - expected));
+		return (FloatingNumber)(expected - given);
+		//return ((FloatingNumber)(0.5))*((FloatingNumber)(given - expected))*((FloatingNumber)(given - expected));
 	}
 
 	FloatingNumber LearningCoefficientForIthEpoch(const int& currentEpoch, const int& maxEpochs) const
