@@ -19,13 +19,12 @@ public:
 		//first test is to perform xor operation
 		vector<int> structure;
 		structure.push_back(2);
-		structure.push_back(4);
-		//structure.push_back(15);
-		//structure.push_back(25);
-		//structure.push_back(15);
-		structure.push_back(8);
-		structure.push_back(8);
-		structure.push_back(4);
+		//structure.push_back(8);
+		structure.push_back(15);
+		structure.push_back(25);
+		structure.push_back(15);
+		//structure.push_back(4);
+		//structure.push_back(2);
 		structure.push_back(1);
 		NeuralNetwork<> network(structure);
 
@@ -46,7 +45,7 @@ public:
 			teachingSet.push_back(make_pair(in, out));
 		}
 
-		network.Teach(teachingSet, 50000);
+		network.Teach(teachingSet, 20000);
 		network.Save("xor.net");
 
 		cout << "NN2:\n";

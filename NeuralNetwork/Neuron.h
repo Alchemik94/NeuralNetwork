@@ -78,7 +78,7 @@ public:
 		lastResult = 0;
 		wages = vector<FloatingNumber>(size);
 		for (int i = 0; i < size; ++i)
-			wages[i] = ((FloatingNumber)(rand() % 200000 - 100000)) / 100000;
+			wages[i] = ((FloatingNumber)(rand() % 200 - 100)) / 100;
 	}
 	Neuron(){}
 

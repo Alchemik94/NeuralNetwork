@@ -2,6 +2,7 @@
 #define __NEURAL_NETWORK__
 
 #define ABS(x) (x) >= 0 ? (x) : (-(x))
+#define PI 3.14159265
 
 #include "Neuron.h"
 #include <list>
@@ -18,7 +19,7 @@ class NeuralNetwork
 {
 	vector<vector<Neuron<FloatingNumber> > > network;
 
-	const FloatingNumber learningCoefficientLow = 0.2;
+	const FloatingNumber learningCoefficientLow = 0.05;
 	const FloatingNumber learningCoefficientHigh = 0.9;
 
 	FloatingNumber MeanSquaredError(const FloatingNumber& given, const FloatingNumber& expected) const
@@ -29,7 +30,9 @@ class NeuralNetwork
 
 	FloatingNumber LearningCoefficientForIthEpoch(const int& currentEpoch, const int& maxEpochs) const
 	{
-		return sqrt(learningCoefficientLow*learningCoefficientLow*((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))) + learningCoefficientHigh*learningCoefficientHigh*(1 - ((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs)))));
+		//return sqrt(learningCoefficientLow*learningCoefficientLow*((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs))) + learningCoefficientHigh*learningCoefficientHigh*(1 - ((ABS(((FloatingNumber)(maxEpochs)) / 2 - currentEpoch)) / ((FloatingNumber)(maxEpochs)))));
+		return sqrt(learningCoefficientLow*learningCoefficientLow*(ABS(sinl(((FloatingNumber)(currentEpoch) / (FloatingNumber)(maxEpochs)) * PI - PI/2))) + learningCoefficientHigh*learningCoefficientHigh*(ABS(cosl(((FloatingNumber)(currentEpoch) / (FloatingNumber)(maxEpochs)) * PI - PI/2))));
+		//return learningCoefficientLow*(ABS(sinl(((FloatingNumber)(currentEpoch) / (FloatingNumber)(maxEpochs)) * PI - PI/2))) + learningCoefficientHigh*(ABS(cosl(((FloatingNumber)(currentEpoch) / (FloatingNumber)(maxEpochs))* PI - PI/2)));
 	}
 
 	FloatingNumber ErrorOnHidden(const int& layer, const int& neuronNumber, const vector<vector<FloatingNumber> >& error)
