@@ -141,7 +141,15 @@ public:
 	{
 		vector<FloatingNumber> tmp, result;
 		tmp = input;
-		for (int i = 0; i < network.size(); ++i)
+		for (int i = 0; i < 1; ++i)
+		{
+			result.clear();
+			result.resize(network[i].size());
+			for (int j = 0; j < network[i].size(); ++j)
+				result[j] = network[i][j].Use(vector<FloatingNumber>(1,tmp[j]));
+			tmp = result;
+		}
+		for (int i = 1; i < network.size(); ++i)
 		{
 			result.clear();
 			result.resize(network[i].size());

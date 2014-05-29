@@ -19,11 +19,11 @@ public:
 		//first test is to perform xor operation
 		vector<int> structure;
 		structure.push_back(2);
-		structure.push_back(3);
+		structure.push_back(4);
 		//structure.push_back(15);
 		//structure.push_back(25);
 		//structure.push_back(15);
-		structure.push_back(3);
+		structure.push_back(4);
 		structure.push_back(1);
 		NeuralNetwork<> network(structure);
 
@@ -36,30 +36,30 @@ public:
 		{
 			in.clear();
 			out.clear();
-			in.push_back(i);
 			in.push_back(j);
+			in.push_back(i);
 			out.push_back(((i == 1) && (j == 0)) || ((i == 0) && (j == 1)));
 			teachingSet.push_back(make_pair(in, out));
 		}
 
-		network.Teach(teachingSet,5);
+		network.Teach(teachingSet, 5);
 		network.Save("xor.net");
 
+		cout << "NN2:\n";
 		NeuralNetwork<long double> network2("xor.net");
+		
+		in.clear();
+		in.push_back(0);
+		in.push_back(0);
+		
 		out = network2.Use(in);
 
 		cout << in[0] << " xor " << in[1] << " = " << out[0] << "\n";
 
 		in.clear();
-		in.push_back(0);
-		in.push_back(0);
-
-		cout << in[0] << " xor " << in[1] << " = " << network2.Use(in)[0] << "\n";
-
-		in.clear();
 		in.push_back(1);
 		in.push_back(0);
-
+			
 		cout << in[0] << " xor " << in[1] << " = " << network2.Use(in)[0] << "\n";
 
 		in.clear();
@@ -67,6 +67,13 @@ public:
 		in.push_back(1);
 
 		cout << in[0] << " xor " << in[1] << " = " << network2.Use(in)[0] << "\n";
+
+		in.clear();
+		in.push_back(1);
+		in.push_back(1);
+
+		cout << in[0] << " xor " << in[1] << " = " << network2.Use(in)[0] << "\n\n\n";
+		
 	}
 
 };
