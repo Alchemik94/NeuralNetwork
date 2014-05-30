@@ -22,10 +22,32 @@ class NeuralNetwork
 	const FloatingNumber learningCoefficientLow = 0.05;
 	const FloatingNumber learningCoefficientHigh = 0.9;
 
-	FloatingNumber MeanSquaredError(const FloatingNumber& given, const FloatingNumber& expected) const
+	FloatingNumber ParticularMeanSquaredError(const FloatingNumber& given, const FloatingNumber& expected) const
+	{
+		return ((FloatingNumber)(0.5))*((FloatingNumber)(given - expected))*((FloatingNumber)(given - expected));
+	}
+
+	FloatingNumber MeanSquaredError(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& checkingSet)
+	{
+		FloatingNumber res = 0;
+
+		for (auto it = checkingSet.begin(); it != checkingSet.end(); ++it)
+		{
+			Use(it->first);
+			for (int i = 0; i < it->second.size(); ++i)
+			{
+				res += ParticularMeanSquaredError(network[network.size() - 1][i].lastResult, it->second[i]);
+			}
+		}
+
+		res /= checkingSet.size();
+
+		return res;
+	}
+
+	FloatingNumber ParticularError(const FloatingNumber& given, const FloatingNumber& expected) const
 	{
 		return (FloatingNumber)(expected - given);
-		//return ((FloatingNumber)(0.5))*((FloatingNumber)(given - expected))*((FloatingNumber)(given - expected));
 	}
 
 	FloatingNumber LearningCoefficientForIthEpoch(const int& currentEpoch, const int& maxEpochs) const
@@ -50,7 +72,7 @@ class NeuralNetwork
 		//output layer
 		error[error.size() - 1].resize(network[network.size() - 1].size());
 		for (int i = 0; i < network[network.size() - 1].size(); ++i)
-			error[error.size() - 1][i] = MeanSquaredError(network[network.size() - 1][i].lastResult, output[i]);
+			error[error.size() - 1][i] = ParticularError(network[network.size() - 1][i].lastResult, output[i]);
 
 		//rest of the layers
 		for (int i = network.size() - 2; i >= 0; --i)
@@ -170,6 +192,23 @@ public:
 		FloatingNumber learningCoefficient;
 		for (int i = 0; i < epochs; ++i)
 		{
+			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
+			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
+				TeachCase(it->first, it->second, learningCoefficient);
+		}
+	}
+
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs, int whenReport)
+
+	{
+		auto it = teachingSet.begin();
+		FloatingNumber learningCoefficient;
+		for (int i = 0; i < epochs; ++i)
+		{
+			if ((i == 1) || (i%whenReport == 0))
+			{
+				cout << "Current average Mean Squared Error:\t" << MeanSquaredError(teachingSet) << "\n";
+			}
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
 				TeachCase(it->first, it->second, learningCoefficient);
