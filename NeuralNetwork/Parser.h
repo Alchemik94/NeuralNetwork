@@ -14,12 +14,12 @@ class Parser
 
 	vector<vector<FloatingNumber> > ParseProtein(const string& protein)
 	{
-
+		//TODO
 	}
 
 	vector<vector<FloatingNumber> > ParseStructure(const string& structure)
 	{
-	
+		//TODO
 	}
 
 	public:
@@ -31,16 +31,26 @@ class Parser
 			fstream input;
 			input.open(inputFilename.c_str, ios::in);
 
+			string line;
+
 			list<pair<vector<FloatingNumber>, vector<FloatingNumber> > > listOfCases;
 
 			vector<vector<FloatingNumber> > inputs, outputs;
 
 			while (input.eof() == 0)
 			{
-				
+				input >> line;
+				input >> line;
+				inputs = ParseProtein(line);
+				input >> line;
+				outputs = ParseStructure(line);
+				for (int i = 0; i < inputs.size() && i < outputs.size(); ++i)
+					listOfCases.insert(listOfCases.end(), make_pair(inputs[i], outputs[i]));
 			}
 
 			input.close();
+
+			return listOfCases;
 		}
 };
 
