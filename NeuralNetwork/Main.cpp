@@ -8,7 +8,7 @@ int main()
 {
 	Tester tester;
 
-	tester.Test();
+	//tester.TestOfXor();
 
 	return 0;
 }

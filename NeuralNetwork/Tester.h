@@ -14,7 +14,7 @@ class Tester
 	const long double epsilon = 0.0001;
 
 public:
-	void Test()
+	void TestOfXor()
 	{
 		//first test is to perform xor operation
 		vector<int> structure;
