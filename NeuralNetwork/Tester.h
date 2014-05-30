@@ -46,7 +46,7 @@ public:
 		}
 
 		//network.Teach(teachingSet, 20000,1000);
-		network.Teach(teachingSet, (long double)(0.00001), 1000);
+		network.Teach(teachingSet, (long double)(0.00000001), 1000);
 		network.Save("xor.net");
 
 		cout << "NN2:\n";
