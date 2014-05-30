@@ -104,7 +104,7 @@ class NeuralNetwork
 	}
 
 public:
-	//Network has to have at least two layers: input and output
+	//Network has to have at least three layers: input, hidden and output
 	NeuralNetwork(const vector<int>& structureDescription)
 	{
 		srand(time(NULL));
@@ -236,7 +236,7 @@ public:
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
 				TeachCase(it->first, it->second, learningCoefficient);
 			++i;
-			if (i >= epochs)
+			if (4*i >= 3*epochs)
 				epochs *= 2;
 		}
 	}
