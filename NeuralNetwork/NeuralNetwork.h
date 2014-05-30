@@ -201,17 +201,43 @@ public:
 	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs, int whenReport)
 
 	{
+		cout.precision(10);
 		auto it = teachingSet.begin();
 		FloatingNumber learningCoefficient;
+		cout << "Epochs:\t\tCurrent Error : \n";
 		for (int i = 0; i < epochs; ++i)
 		{
-			if ((i == 1) || (i%whenReport == 0))
+			if ((i+1 == 1) || ((i+1)%whenReport == 0))
 			{
-				cout << "Current average Mean Squared Error:\t" << MeanSquaredError(teachingSet) << "\n";
+				cout << i+1 << "\t\t" << MeanSquaredError(teachingSet) << "\n";
 			}
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
 				TeachCase(it->first, it->second, learningCoefficient);
+		}
+	}
+
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, FloatingNumber error, int whenReport)
+
+	{
+		cout.precision(10);
+		long long int epochs = 20000;
+		long long int i = 0;
+		auto it = teachingSet.begin();
+		FloatingNumber learningCoefficient;
+		cout << "Epochs:\t\tCurrent Error : \n";
+		while(MeanSquaredError(teachingSet)>error)
+		{
+			if ((i + 1 == 1) || ((i + 1) % whenReport == 0))
+			{
+				cout << i + 1 << "\t\t" << MeanSquaredError(teachingSet) << "\n";
+			}
+			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
+			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
+				TeachCase(it->first, it->second, learningCoefficient);
+			++i;
+			if (i >= epochs)
+				epochs *= 2;
 		}
 	}
 

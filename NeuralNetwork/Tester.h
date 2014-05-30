@@ -45,7 +45,8 @@ public:
 			teachingSet.push_back(make_pair(in, out));
 		}
 
-		network.Teach(teachingSet, 20000,1000);
+		//network.Teach(teachingSet, 20000,1000);
+		network.Teach(teachingSet, (long double)(0.00001), 1000);
 		network.Save("xor.net");
 
 		cout << "NN2:\n";
