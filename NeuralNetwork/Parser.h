@@ -12,9 +12,27 @@ class Parser
 {
 	int windowWidth = 20;
 
+	string Aminoacid(const string& protein, int position)
+	{
+		//TODO - particular aminoacid in form 1-out-of-20
+	}
+
 	vector<vector<FloatingNumber> > ParseProtein(const string& protein)
 	{
-		//TODO
+		string aminoacid;
+		vector<vector<FloatingNumber> > parsed(protein.length() - windowWidth);
+		for (int i = 0; i < protein.length()-windowWidth; ++i)
+		{
+			for (int j = 0; j < windowWidth; ++j)
+			{
+				aminoacid = Aminoacid(protein, i + j);
+				for (int k = 0; k < aminoacid.length(); ++k)
+				{
+					parsed[i].push_back((FloatingNumber)(aminoacid[k]-'0'));
+				}
+			}
+		}
+		return parsed;
 	}
 
 	vector<vector<FloatingNumber> > ParseStructure(const string& structure)
