@@ -2,7 +2,7 @@
 
 #include "Tester.h"
 
-#include <cstdlib.h>
+#include <cstdlib>
 
 using namespace std;
 
