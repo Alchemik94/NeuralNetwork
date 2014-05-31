@@ -15,10 +15,10 @@ public:
 	{
 		vector<int> netStructure;
 		netStructure.push_back(windowWidth*19);
-		netStructure.push_back(900);
-		netStructure.push_back(900);
-		netStructure.push_back(700);
-		netStructure.push_back(450);
+		netStructure.push_back(500);
+		netStructure.push_back(300);
+		netStructure.push_back(150);
+		netStructure.push_back(100);
 		netStructure.push_back(windowWidth * 3);
 		NeuralNetwork<> network(netStructure);
 
@@ -26,7 +26,7 @@ public:
 		cout << "Size of teaching set: " << teachingSet.size() << "\n";
 		for (int i = 0; i < 200; ++i)
 		{
-			network.Teach(teachingSet, 2, 1);
+			network.Teach(teachingSet, 1, 1, true);
 			network.Save(networkNewFileName);
 		}
 	}
@@ -38,7 +38,7 @@ int main()
 
 	Program program;
 
-	program.PrimaryTeaching("CB396_dssp.txt","ProteinPrediction.net");
+	program.PrimaryTeaching("CB396_dssp_short.txt","ProteinPrediction.net");
 
 	system("PAUSE\n");
 

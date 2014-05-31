@@ -192,7 +192,7 @@ public:
 		FloatingNumber learningCoefficient;
 		for (int i = 0; i < epochs; ++i)
 		{
-			if (verbose) int j = 0;
+			int j = 0;
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
 			{
@@ -214,7 +214,7 @@ public:
 		cout << "Epochs:\t\tCurrent Error : \n";
 		for (int i = 0; i < epochs; ++i)
 		{
-			if (verbose) int j = 0;
+			int j = 0;
 			if ((i+1 == 1) || ((i+1)%whenReport == 0))
 			{
 				cout << i+1 << "\t\t" << MeanSquaredError(teachingSet) << "\n";
@@ -242,7 +242,7 @@ public:
 		cout << "Epochs:\t\tCurrent Error : \n";
 		while(MeanSquaredError(teachingSet)>error)
 		{
-			if (verbose) int j = 0;
+			int j = 0;
 			if ((i + 1 == 1) || ((i + 1) % whenReport == 0))
 			{
 				cout << i + 1 << "\t\t" << MeanSquaredError(teachingSet) << "\n";
