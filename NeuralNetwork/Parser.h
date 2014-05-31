@@ -46,9 +46,32 @@ class Parser
 		return parsed;
 	}
 
+	string ClassOfStructure(const string& structure, int position)
+	{
+		if (structure[position] == 'C' || structure[position] == '-')
+			return "100";
+		else if (structure[position] == 'E')
+			return "010";
+		else if (structure[position] == 'H')
+			return "001";
+	}
+
 	vector<vector<FloatingNumber> > ParseStructure(const string& structure)
 	{
-		//TODO
+		string structureClass;
+		vector<vector<FloatingNumber> > parsed(structure.length() - windowWidth);
+		for (int i = 0; i < structure.length() - windowWidth; ++i)
+		{
+			for (int j = 0; j < windowWidth; ++j)
+			{
+				structureClass = ClassOfStructure(structure, i + j);
+				for (int k = 0; k < structureClass.length(); ++k)
+				{
+					parsed[i].push_back((FloatingNumber)(structureClass[k] - '0'));
+				}
+			}
+		}
+		return parsed;
 	}
 
 	public:
