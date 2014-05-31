@@ -15,7 +15,8 @@ class Parser
 	string Aminoacid(const string& protein, int position)
 	{
 		string alphabetically = "0000000000000000000000000";
-		if (protein[position] - 'A' < 0 || protein[position] - 'A' > 24) return "";
+		if (protein[position] - 'A' < 0 || protein[position] - 'A' > 24)
+			return "";
 		alphabetically[protein[position] - 'A'] = '1';
 		string coded = "";
 
@@ -95,6 +96,7 @@ class Parser
 				input >> line;
 				input >> line;
 				input >> line;
+				if (input.eof() != 0) break;
 				inputs = ParseProtein(line);
 				input >> line;
 				outputs = ParseStructure(line);
