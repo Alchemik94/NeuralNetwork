@@ -186,19 +186,26 @@ public:
 		return result;
 	}
 
-	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs)
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs, bool verbose = false)
 	{
 		auto it = teachingSet.begin();
 		FloatingNumber learningCoefficient;
 		for (int i = 0; i < epochs; ++i)
 		{
+			if (verbose) int j = 0;
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
+			{
+				if (verbose)
+				{
+					cout << "Case " << ++j << "out of " << teachingSet.size() << ".\n";
+				}
 				TeachCase(it->first, it->second, learningCoefficient);
+			}
 		}
 	}
 
-	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs, int whenReport)
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs, int whenReport, bool verbose = false)
 
 	{
 		cout.precision(10);
@@ -207,17 +214,24 @@ public:
 		cout << "Epochs:\t\tCurrent Error : \n";
 		for (int i = 0; i < epochs; ++i)
 		{
+			if (verbose) int j = 0;
 			if ((i+1 == 1) || ((i+1)%whenReport == 0))
 			{
 				cout << i+1 << "\t\t" << MeanSquaredError(teachingSet) << "\n";
 			}
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
+			{
+				if (verbose)
+				{
+					cout << "Case " << ++j << "out of " << teachingSet.size() << ".\n";
+				}
 				TeachCase(it->first, it->second, learningCoefficient);
+			}
 		}
 	}
 
-	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, FloatingNumber error, int whenReport)
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, FloatingNumber error, int whenReport, bool verbose = false)
 
 	{
 		cout.precision(10);
@@ -228,13 +242,20 @@ public:
 		cout << "Epochs:\t\tCurrent Error : \n";
 		while(MeanSquaredError(teachingSet)>error)
 		{
+			if (verbose) int j = 0;
 			if ((i + 1 == 1) || ((i + 1) % whenReport == 0))
 			{
 				cout << i + 1 << "\t\t" << MeanSquaredError(teachingSet) << "\n";
 			}
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
+			{
+				if (verbose)
+				{
+					cout << "Case " << ++j << "out of " << teachingSet.size() << ".\n";
+				}
 				TeachCase(it->first, it->second, learningCoefficient);
+			}
 			++i;
 			if (4*i >= 3*epochs)
 				epochs *= 2;
