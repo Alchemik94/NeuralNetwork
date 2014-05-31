@@ -14,7 +14,18 @@ class Parser
 
 	string Aminoacid(const string& protein, int position)
 	{
-		//TODO - particular aminoacid in form 1-out-of-20
+		string alphabetically = "0000000000000000000000000";
+		alphabetically[protein[position] - 'A'] = '1';
+		string coded = "";
+
+		for (int i = 0, j = 0; i < alphabetically.length(); ++i)
+		{
+			//B,J,O,U,X,Z
+			if (i==1 || i==9 || i==14 || i==20 || i==23 || i==24)
+				continue;
+			coded += alphabetically[i];
+		}
+		return coded;
 	}
 
 	vector<vector<FloatingNumber> > ParseProtein(const string& protein)

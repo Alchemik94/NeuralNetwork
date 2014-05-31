@@ -2,6 +2,7 @@
 #define __TESTER__
 
 #include "NeuralNetwork.h"
+#include "Parser.h"
 #include <vector>
 #include <list>
 #include <iostream>
@@ -79,6 +80,7 @@ public:
 		cout << in[0] << " xor " << in[1] << " = " << network2.Use(in)[0] << "\n\n\n";
 		
 	}
+
 
 };
 
