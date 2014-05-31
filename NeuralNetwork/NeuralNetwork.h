@@ -270,6 +270,8 @@ public:
 
 		out.close();
 	}
+
+	typedef list<pair<vector<FloatingNumber>, vector<FloatingNumber> > > TeachingSet;
 };
 
 #endif
