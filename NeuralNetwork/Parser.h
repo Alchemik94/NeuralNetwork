@@ -15,6 +15,7 @@ class Parser
 	string Aminoacid(const string& protein, int position)
 	{
 		string alphabetically = "0000000000000000000000000";
+		if (protein[position] - 'A' < 0 || protein[position] - 'A' > 24) return "";
 		alphabetically[protein[position] - 'A'] = '1';
 		string coded = "";
 
@@ -78,10 +79,10 @@ class Parser
 		Parser() : windowWidth(20){}
 		Parser(int windowWidth) : windowWidth(windowWidth){}
 
-		static list<pair<vector<FloatingNumber>,vector<FloatingNumber> > > Parse(const string& inputFilename)
+		list<pair<vector<FloatingNumber>,vector<FloatingNumber> > > Parse(const string& inputFilename)
 		{
 			fstream input;
-			input.open(inputFilename.c_str, ios::in);
+			input.open(inputFilename.c_str(), ios::in);
 
 			string line;
 
@@ -91,6 +92,7 @@ class Parser
 
 			while (input.eof() == 0)
 			{
+				input >> line;
 				input >> line;
 				input >> line;
 				inputs = ParseProtein(line);

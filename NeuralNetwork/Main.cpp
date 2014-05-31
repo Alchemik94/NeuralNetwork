@@ -9,7 +9,7 @@ class Program
 	Parser<> parser;
 	const int windowWidth = 20;
 public:
-	void Teaching(const string& teachingFileName, const string& networkNewFileName)
+	void PrimaryTeaching(const string& teachingFileName, const string& networkNewFileName)
 	{
 		vector<int> netStructure;
 		netStructure.push_back(windowWidth*20);
@@ -34,7 +34,7 @@ int main()
 
 	Program program;
 
-	program.Teaching("CB396_dssp.txt","ProteinPrediction.net");
+	program.PrimaryTeaching("CB396_dssp.txt","ProteinPrediction.net");
 
 	return 0;
 }
