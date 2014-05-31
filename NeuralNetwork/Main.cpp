@@ -34,5 +34,7 @@ int main()
 
 	Program program;
 
+	program.Teaching("CB396_dssp.txt","ProteinPrediction.net");
+
 	return 0;
 }
