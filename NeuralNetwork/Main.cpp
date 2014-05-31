@@ -2,6 +2,8 @@
 
 #include "Tester.h"
 
+#include <cstdlib.h>
+
 using namespace std;
 
 class Program
@@ -35,6 +37,8 @@ int main()
 	Program program;
 
 	program.PrimaryTeaching("CB396_dssp.txt","ProteinPrediction.net");
+
+	system("PAUSE\n");
 
 	return 0;
 }
