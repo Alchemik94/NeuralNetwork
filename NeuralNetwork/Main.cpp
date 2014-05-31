@@ -14,7 +14,7 @@ public:
 	void PrimaryTeaching(const string& teachingFileName, const string& networkNewFileName)
 	{
 		vector<int> netStructure;
-		netStructure.push_back(windowWidth*20);
+		netStructure.push_back(windowWidth*19);
 		netStructure.push_back(1500);
 		netStructure.push_back(3000);
 		netStructure.push_back(2000);
