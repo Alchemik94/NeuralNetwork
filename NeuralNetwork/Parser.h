@@ -147,7 +147,6 @@ class Parser
 		return listOfCases;
 	}
 
-	//TODO
 	TeachSet ParseMiddle(const string& inputFilename)
 	{
 		fstream input;
@@ -159,6 +158,8 @@ class Parser
 
 		vector<vector<FloatingNumber> > inputs, outputs;
 
+		vector<FloatingNumber> tmp;
+
 		while (input.eof() == 0)
 		{
 			input >> line;
@@ -169,7 +170,13 @@ class Parser
 			input >> line;
 			outputs = ParseStructure(line);
 			for (int i = 0; i < inputs.size() && i < outputs.size(); ++i)
-				listOfCases.insert(listOfCases.end(), make_pair(inputs[i], outputs[i]));
+			{
+				tmp.clear();
+				tmp.push_back(outputs[i][(windowWidth / 2)*3 ]);
+				tmp.push_back(outputs[i][(windowWidth / 2)*3 + 1 ]);
+				tmp.push_back(outputs[i][(windowWidth / 2)*3 + 2 ]);
+				listOfCases.insert(listOfCases.end(), make_pair(inputs[i], tmp));
+			}
 		}
 
 		input.close();
@@ -180,34 +187,13 @@ class Parser
 	public:
 		Parser() : windowWidth(20){}
 		Parser(int windowWidth) : windowWidth(windowWidth){}
-		//TO IMPROVE
-		TeachSet Parse(const string& inputFilename)
+		vector<TeachSet> Parse(const string& inputFilename)
 		{
-			fstream input;
-			input.open(inputFilename.c_str(), ios::in);
-
-			string line;
-
-			list<pair<vector<FloatingNumber>, vector<FloatingNumber> > > listOfCases;
-
-			vector<vector<FloatingNumber> > inputs, outputs;
-
-			while (input.eof() == 0)
-			{
-				input >> line;
-				input >> line;
-				input >> line;
-				if (input.eof() != 0) break;
-				inputs = ParseProtein(line);
-				input >> line;
-				outputs = ParseStructure(line);
-				for (int i = 0; i < inputs.size() && i < outputs.size(); ++i)
-					listOfCases.insert(listOfCases.end(), make_pair(inputs[i], outputs[i]));
-			}
-
-			input.close();
-
-			return listOfCases;
+			vector<TeachSet> result;
+			result.push_back(ParseFront(inputFilename));
+			result.push_back(ParseMiddle(inputFilename));
+			result.push_back(ParseBack(inputFilename));
+			return result;
 		}
 };
 
