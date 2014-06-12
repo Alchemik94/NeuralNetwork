@@ -11,7 +11,7 @@ using namespace std;
 class Program
 {
 	Parser<> parser;
-	const int windowWidth = 19;
+	const int windowWidth = 9;
 	const int aminoacidsTypes = 19;
 	const int numberOfEpochs = 1000;
 	const int whenReport = 100;
@@ -24,15 +24,15 @@ public:
 	}
 	void PrimaryTeachingFront(const string& teachingFileName, const string& networkNewFileName)
 	{
-		Parser<> parser;
+		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
 		vector<int> structure;
 		structure.push_back(windowWidth*aminoacidsTypes);
-		structure.push_back(55);
 		structure.push_back(50);
-		structure.push_back(45);
-		structure.push_back(35);
+		structure.push_back(40);
+		structure.push_back(30);
+		structure.push_back(20);
 		structure.push_back((windowWidth / 2) * 3);
 
 		NeuralNetwork<> fronts(structure);
@@ -43,14 +43,14 @@ public:
 	}
 	void PrimaryTeachingMiddle(const string& teachingFileName, const string& networkNewFileName)
 	{
-		Parser<> parser;
+		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
 		vector<int> structure;
 		structure.push_back(windowWidth*aminoacidsTypes);
 		structure.push_back(50);
-		structure.push_back(20);
-		structure.push_back(10);
+		structure.push_back(15);
+		structure.push_back(6);
 		structure.push_back(3);
 
 		NeuralNetwork<> middles(structure);
@@ -61,15 +61,15 @@ public:
 	}
 	void PrimaryTeachingBack(const string& teachingFileName, const string& networkNewFileName)
 	{
-		Parser<> parser;
+		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
 		vector<int> structure;
 		structure.push_back(windowWidth*aminoacidsTypes);
-		structure.push_back(55);
 		structure.push_back(50);
-		structure.push_back(45);
-		structure.push_back(35);
+		structure.push_back(40);
+		structure.push_back(30);
+		structure.push_back(20);
 		structure.push_back((windowWidth / 2) * 3);
 
 		NeuralNetwork<> backs(structure);
