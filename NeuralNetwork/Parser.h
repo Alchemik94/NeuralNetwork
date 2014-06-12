@@ -10,7 +10,9 @@ using namespace std;
 template <typename FloatingNumber = long double>
 class Parser
 {
-	int windowWidth = 20;
+	typedef list<pair<vector<FloatingNumber>, vector<FloatingNumber> > > TeachSet;
+
+	int windowWidth = 19;
 
 	string Aminoacid(const string& protein, int position)
 	{
@@ -76,11 +78,110 @@ class Parser
 		return parsed;
 	}
 
+	TeachSet ParseFront(const string& inputFilename)
+	{
+		fstream input;
+		input.open(inputFilename.c_str(), ios::in);
+
+		string line;
+
+		list<pair<vector<FloatingNumber>, vector<FloatingNumber> > > listOfCases;
+
+		vector<vector<FloatingNumber> > inputs, outputs;
+
+		while (input.eof() == 0)
+		{
+			input >> line;
+			input >> line;
+			input >> line;
+			if (input.eof() != 0) break;
+			inputs = ParseProtein(line);
+			input >> line;
+			outputs = ParseStructure(line);
+			for (int i = 0; i <= windowWidth / 2; ++i)
+			{
+				outputs[0].pop_back();
+				outputs[0].pop_back();
+				outputs[0].pop_back();
+			}
+			listOfCases.insert(listOfCases.end(), make_pair(inputs[0], outputs[0]));
+		}
+
+		input.close();
+
+		return listOfCases;
+	}
+
+	TeachSet ParseBack(const string& inputFilename)
+	{
+		fstream input;
+		input.open(inputFilename.c_str(), ios::in);
+
+		string line;
+
+		list<pair<vector<FloatingNumber>, vector<FloatingNumber> > > listOfCases;
+
+		vector<vector<FloatingNumber> > inputs, outputs;
+
+		vector<FloatingNumber> tmp;
+
+		while (input.eof() == 0)
+		{
+			input >> line;
+			input >> line;
+			input >> line;
+			if (input.eof() != 0) break;
+			inputs = ParseProtein(line);
+			input >> line;
+			outputs = ParseStructure(line);
+			tmp.clear();
+			for (int i = (windowWidth / 2 + 1) * 3; i < outputs[outputs.size() - 1].size(); ++i)
+			{
+				tmp.push_back(outputs[outputs.size() - 1][i]);
+			}
+			listOfCases.insert(listOfCases.end(), make_pair(inputs[inputs.size()-1], tmp));
+		}
+
+		input.close();
+
+		return listOfCases;
+	}
+
+	//TODO
+	TeachSet ParseMiddle(const string& inputFilename)
+	{
+		fstream input;
+		input.open(inputFilename.c_str(), ios::in);
+
+		string line;
+
+		list<pair<vector<FloatingNumber>, vector<FloatingNumber> > > listOfCases;
+
+		vector<vector<FloatingNumber> > inputs, outputs;
+
+		while (input.eof() == 0)
+		{
+			input >> line;
+			input >> line;
+			input >> line;
+			if (input.eof() != 0) break;
+			inputs = ParseProtein(line);
+			input >> line;
+			outputs = ParseStructure(line);
+			for (int i = 0; i < inputs.size() && i < outputs.size(); ++i)
+				listOfCases.insert(listOfCases.end(), make_pair(inputs[i], outputs[i]));
+		}
+
+		input.close();
+
+		return listOfCases;
+	}
+
 	public:
 		Parser() : windowWidth(20){}
 		Parser(int windowWidth) : windowWidth(windowWidth){}
-
-		list<pair<vector<FloatingNumber>,vector<FloatingNumber> > > Parse(const string& inputFilename)
+		//TO IMPROVE
+		TeachSet Parse(const string& inputFilename)
 		{
 			fstream input;
 			input.open(inputFilename.c_str(), ios::in);

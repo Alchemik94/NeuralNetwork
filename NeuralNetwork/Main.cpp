@@ -26,9 +26,12 @@ public:
 		cout << "Size of teaching set: " << teachingSet.size() << "\n";
 		for (int i = 0; i < 200; ++i)
 		{
-			network.Teach(teachingSet, 1, 1, true);
+			cout << "Epoch " << i << " out of 201.\n";
+			network.Teach(teachingSet, 1, true);
 			network.Save(networkNewFileName);
 		}
+		network.Teach(teachingSet, 1, 1, true);
+		network.Save(networkNewFileName);
 	}
 };
 
@@ -38,7 +41,7 @@ int main()
 
 	Program program;
 
-	program.PrimaryTeaching("CB396_dssp_short.txt","ProteinPrediction.net");
+	program.PrimaryTeaching("CB396_dssp.txt","ProteinPrediction.net");
 
 	system("PAUSE\n");
 
