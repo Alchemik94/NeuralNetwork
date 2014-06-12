@@ -9,29 +9,70 @@ using namespace std;
 class Program
 {
 	Parser<> parser;
-	const int windowWidth = 20;
+	const int windowWidth = 19;
+	const int aminoacidsTypes = 19;
+	const int numberOfEpochs = 100;
+	const int whenReport = 1;
 public:
+	void PrimaryTeachingFront(const string& teachingFileName, const string& networkNewFileName)
+	{
+		Parser<> parser;
+		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
+
+		vector<int> structure;
+		structure.push_back(windowWidth*aminoacidsTypes);
+		structure.push_back(100);
+		structure.push_back(50);
+		structure.push_back(50);
+		structure.push_back((windowWidth / 2) * 3);
+
+		NeuralNetwork<> fronts(structure);
+
+		fronts.Teach(teachingSet[0],numberOfEpochs,whenReport);
+
+		fronts.Save(networkNewFileName + "_front.net");
+	}
+	void PrimaryTeachingMiddle(const string& teachingFileName, const string& networkNewFileName)
+	{
+		Parser<> parser;
+		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
+
+		vector<int> structure;
+		structure.push_back(windowWidth*aminoacidsTypes);
+		structure.push_back(100);
+		structure.push_back(50);
+		structure.push_back(25);
+		structure.push_back(3);
+
+		NeuralNetwork<> middles(structure);
+
+		middles.Teach(teachingSet[1], numberOfEpochs, whenReport);
+
+		middles.Save(networkNewFileName + "_middle.net");
+	}
+	void PrimaryTeachingBack(const string& teachingFileName, const string& networkNewFileName)
+	{
+		Parser<> parser;
+		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
+
+		vector<int> structure;
+		structure.push_back(windowWidth*aminoacidsTypes);
+		structure.push_back(100);
+		structure.push_back(50);
+		structure.push_back(50);
+		structure.push_back((windowWidth / 2) * 3);
+
+		NeuralNetwork<> backs(structure);
+
+		backs.Teach(teachingSet[2], numberOfEpochs, whenReport);
+
+		backs.Save(networkNewFileName + "_back.net");
+	}
 	void PrimaryTeaching(const string& teachingFileName, const string& networkNewFileName)
 	{
-		vector<int> netStructure;
-		netStructure.push_back(windowWidth*19);
-		netStructure.push_back(500);
-		netStructure.push_back(300);
-		netStructure.push_back(150);
-		netStructure.push_back(100);
-		netStructure.push_back(windowWidth * 3);
-		NeuralNetwork<> network(netStructure);
-
-		NeuralNetwork<>::TeachingSet teachingSet = parser.Parse(teachingFileName);
-		cout << "Size of teaching set: " << teachingSet.size() << "\n";
-		for (int i = 0; i < 200; ++i)
-		{
-			cout << "Epoch " << i << " out of 201.\n";
-			network.Teach(teachingSet, 1, true);
-			network.Save(networkNewFileName);
-		}
-		network.Teach(teachingSet, 1, 1, true);
-		network.Save(networkNewFileName);
+		PrimaryTeachingFront(teachingFileName, networkNewFileName);
+		PrimaryTeachingMiddle(teachingFileName, networkNewFileName);
+		PrimaryTeachingBack(teachingFileName, networkNewFileName);
 	}
 };
 
@@ -41,7 +82,7 @@ int main()
 
 	Program program;
 
-	program.PrimaryTeaching("CB396_dssp.txt","ProteinPrediction.net");
+	program.PrimaryTeaching("CB396_dssp.txt","");
 
 	system("PAUSE\n");
 

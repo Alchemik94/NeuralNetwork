@@ -185,7 +185,7 @@ class Parser
 	}
 
 	public:
-		Parser() : windowWidth(20){}
+		Parser() : windowWidth(19){}
 		Parser(int windowWidth) : windowWidth(windowWidth){}
 		vector<TeachSet> Parse(const string& inputFilename)
 		{
