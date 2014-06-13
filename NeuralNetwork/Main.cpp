@@ -93,6 +93,7 @@ public:
 		cout << "Sequence ends with nonpositive number. Network has to have at least 3 layers.\n";
 		int i;
 		vector<int> structure;
+		cout << ">> ";
 		cin >> i;
 		while (i > 0)
 		{
