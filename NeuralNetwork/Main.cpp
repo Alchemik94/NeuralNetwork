@@ -17,12 +17,13 @@ class Program
 	int whenReport;
 	const enum Command
 	{
-		unknown,create, select, list, teach, save, epochs, report, help, quit
+		unknown,create, select, list, teach, save, epochs, report, from_file, help, quit
 	};
 
 	vector<pair<string, NeuralNetwork<> > > base;
 	Command cmd;
 	int tmp, selected;
+	string tmpstr;
 
 public:
 	/*void PrimaryTeaching(const string& teachingFileName, const string& networkNewFileName)
@@ -86,8 +87,9 @@ public:
 		cout << "5. save - saves selected network\n";
 		cout << "6. epochs - sets the number of epochs used in training\n";
 		cout << "7. report - sets the number of epochs when report comes\n";
-		cout << "8. help - displays this message\n";
-		cout << "9. quit - closes program\n";
+		cout << "8. read from file - creates new network from selected file\n";
+		cout << "9. help - displays this message\n";
+		cout << "10. quit - closes program\n";
 	}
 
 	vector<int> GetStructure()
@@ -193,12 +195,20 @@ public:
 				cout << "Enter number of epochs used in training.\n";
 				cout << ">> ";
 				cin >> numberOfEpochs;
+				cout << "Set training for " << numberOfEpochs << " epochs.\n";
 				break;
 			case report:
 				cout << "Enter number of epochs after which report comes.\n";
 				cout << ">> ";
 				cin >> whenReport;
+				cout << "Set report to appear after every " << whenReport << " epochs.\n";
 				break;
+			case from_file:
+				cout << "Enter name of network file.\n";
+				cout << ">> ";
+				cin >> tmpstr;
+				base.push_back(make_pair("Network from file", NeuralNetwork<>(tmpstr)));
+				cout << "Added network from file.\n";
 			case help:
 				Help();
 				break;
