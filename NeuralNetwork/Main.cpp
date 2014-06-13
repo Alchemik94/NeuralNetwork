@@ -207,8 +207,9 @@ public:
 				cout << "Enter name of network file.\n";
 				cout << ">> ";
 				cin >> tmpstr;
-				base.push_back(make_pair("Network from file", NeuralNetwork<>(tmpstr)));
+				base.push_back(make_pair(tmpstr, NeuralNetwork<>(tmpstr)));
 				cout << "Added network from file.\n";
+				break;
 			case help:
 				Help();
 				break;
