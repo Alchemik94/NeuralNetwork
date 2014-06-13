@@ -17,7 +17,7 @@ class Program
 	const int whenReport = 100;
 	const enum Command
 	{
-		unknown,create,select,list,teach,save,help,quit
+		create, select, list, teach, save, help, quit, unknown
 	};
 
 	vector<pair<string, NeuralNetwork<> > > base;
@@ -25,78 +25,67 @@ class Program
 	int tmp, selected;
 
 public:
-	void PrimaryTeaching(const string& teachingFileName, const string& networkNewFileName)
+	/*void PrimaryTeaching(const string& teachingFileName, const string& networkNewFileName)
 	{
 		PrimaryTeachingFront(teachingFileName, networkNewFileName);
 		PrimaryTeachingMiddle(teachingFileName, networkNewFileName);
 		PrimaryTeachingBack(teachingFileName, networkNewFileName);
-	}
-	void PrimaryTeachingFront(const string& teachingFileName, const string& networkNewFileName)
+	}*/
+	void TeachingFront(const string& teachingFileName)
 	{
 		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
-		vector<int> structure;
+		/*
 		structure.push_back(windowWidth*aminoacidsTypes);
 		structure.push_back(25);
 		structure.push_back(30);
 		structure.push_back(25);
 		structure.push_back(15);
 		structure.push_back((windowWidth / 2) * 3);
-
-		NeuralNetwork<> fronts(structure);
-
-		fronts.Teach(teachingSet[0], numberOfEpochs, whenReport);
-
-		fronts.Save(networkNewFileName + "_front.net");
+		*/
+		base[selected-1].second.Teach(teachingSet[0], numberOfEpochs, whenReport);
 	}
-	void PrimaryTeachingMiddle(const string& teachingFileName, const string& networkNewFileName)
+	void TeachingMiddle(const string& teachingFileName)
 	{
 		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
-		vector<int> structure;
+		/*
 		structure.push_back(windowWidth*aminoacidsTypes);
 		structure.push_back(20);
 		structure.push_back(15);
 		structure.push_back(6);
 		structure.push_back(3);
-
-		NeuralNetwork<> middles(structure);
-
-		middles.Teach(teachingSet[1], numberOfEpochs, whenReport);
-
-		middles.Save(networkNewFileName + "_middle.net");
+		*/
+		base[selected-1].second.Teach(teachingSet[1], numberOfEpochs, whenReport);
 	}
-	void PrimaryTeachingBack(const string& teachingFileName, const string& networkNewFileName)
+	void TeachingBack(const string& teachingFileName)
 	{
 		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
-		vector<int> structure;
+		/*
 		structure.push_back(windowWidth*aminoacidsTypes);
 		structure.push_back(25);
 		structure.push_back(30);
 		structure.push_back(25);
 		structure.push_back(15);
 		structure.push_back((windowWidth / 2) * 3);
-
-		NeuralNetwork<> backs(structure);
-
-		backs.Teach(teachingSet[2], numberOfEpochs, whenReport);
-
-		backs.Save(networkNewFileName + "_back.net");
+		*/
+		
+		base[selected-1].second.Teach(teachingSet[2], numberOfEpochs, whenReport);
 	}
 
 	void Help()
 	{
-		cout << "create - creates new neural network\n";
-		cout << "select x - selects network number x\n";
-		cout << "list - prints names of all networks\n";
-		cout << "teach - teaches selected network\n";
-		cout << "save - saves selected network\n";
-		cout << "help - displays this message\n";
-		cout << "quit - closes program\n";
+		cout << "1. create - creates new neural network\n";
+		cout << "2. select x - selects network number x\n";
+		cout << "3. list - prints names of all networks\n";
+		cout << "4. teach - teaches selected network\n";
+		cout << "5. save - saves selected network\n";
+		cout << "6. help - displays this message\n";
+		cout << "7. quit - closes program\n";
 	}
 
 	vector<int> GetStructure()
@@ -123,24 +112,30 @@ public:
 		return name;
 	}
 
-	//TODO
 	void Teach()
 	{
 		cout << "There are 3 options for teaching of the network:\n";
 		cout << "1. Recognizing the fronts of the proteins' secondary structure.\n";
 		cout << "2. Recognizing the middle of the proteins' secondary structure.\n";
 		cout << "3. Recognizing the backs of the proteins' secondary structure.\n";
-		cout << "Select one.\n";
+		cout << "Select one of them (as a number).\n";
 		int sel;
 		cout << ">> ";
 		cin >> sel;
+		cout << "Enter training file name.\n";
+		cout << ">> ";
+		string training;
+		cin >> training;
 		switch (sel)
 		{
 		case 1:
+			TeachingFront(training);
 			break;
 		case 2:
+			TeachingMiddle(training);
 			break;
 		case 3:
+			TeachingBack(training);
 			break;
 		default:
 			cout << "Error. Try again.\n";
@@ -205,15 +200,19 @@ public:
 
 int main()
 {
+	/*
 	int choice;
 	cin >> choice;
+	*/
 
-	Tester tester;
+	//Tester tester;
 
 	Program program;
 
-	string input = "CB396_dssp_short.txt", output = "";
+	program.Run;
 
+	//string input = "CB396_dssp_short.txt", output = "";
+	/*
 	switch (choice)
 	{
 	case 1:
@@ -229,7 +228,7 @@ int main()
 		program.PrimaryTeaching(input, output);
 		break;
 	}
-
+	*/
 
 	system("PAUSE\n");
 
