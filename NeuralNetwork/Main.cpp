@@ -17,7 +17,7 @@ class Program
 	const int whenReport = 100;
 	const enum Command
 	{
-		create, select, list, teach, save, help, quit, unknown
+		unknown,create, select, list, teach, save, help, quit
 	};
 
 	vector<pair<string, NeuralNetwork<> > > base;
@@ -209,7 +209,7 @@ int main()
 
 	Program program;
 
-	program.Run;
+	program.Run();
 
 	//string input = "CB396_dssp_short.txt", output = "";
 	/*
