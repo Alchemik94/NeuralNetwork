@@ -13,11 +13,11 @@ class Program
 	Parser<> parser;
 	const int windowWidth = 9;
 	const int aminoacidsTypes = 19;
-	const int numberOfEpochs = 1000;
-	const int whenReport = 100;
+	int numberOfEpochs;
+	int whenReport;
 	const enum Command
 	{
-		unknown,create, select, list, teach, save, help, quit
+		unknown,create, select, list, teach, save, epochs, report, help, quit
 	};
 
 	vector<pair<string, NeuralNetwork<> > > base;
@@ -84,8 +84,10 @@ public:
 		cout << "3. list - prints names of all networks\n";
 		cout << "4. teach - teaches selected network\n";
 		cout << "5. save - saves selected network\n";
-		cout << "6. help - displays this message\n";
-		cout << "7. quit - closes program\n";
+		cout << "6. epochs - sets the number of epochs used in training\n";
+		cout << "7. report - sets the number of epochs when report comes\n";
+		cout << "8. help - displays this message\n";
+		cout << "9. quit - closes program\n";
 	}
 
 	vector<int> GetStructure()
@@ -157,6 +159,8 @@ public:
 	{
 		Help();
 		selected = 0;
+		numberOfEpochs = 1000;
+		whenReport = 100;
 		cout << ">> ";
 		cin >> tmp;
 		cmd = (Command)tmp;
@@ -184,6 +188,16 @@ public:
 			case save:
 				base[selected - 1].second.Save(GetFilename());
 				cout << "Selected network has been saved.\n";
+				break;
+			case epochs:
+				cout << "Enter number of epochs used in training.\n";
+				cout << ">> ";
+				cin >> numberOfEpochs;
+				break;
+			case report:
+				cout << "Enter number of epochs after which report comes.\n";
+				cout << ">> ";
+				cin >> whenReport;
 				break;
 			case help:
 				Help();
