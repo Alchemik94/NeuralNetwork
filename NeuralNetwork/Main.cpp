@@ -160,7 +160,7 @@ public:
 	void Run()
 	{
 		Help();
-		selected = 0;
+		selected = 1;
 		numberOfEpochs = 1000;
 		whenReport = 100;
 		cout << ">> ";
