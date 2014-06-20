@@ -26,25 +26,11 @@ class Program
 	string tmpstr;
 
 public:
-	/*void PrimaryTeaching(const string& teachingFileName, const string& networkNewFileName)
-	{
-		PrimaryTeachingFront(teachingFileName, networkNewFileName);
-		PrimaryTeachingMiddle(teachingFileName, networkNewFileName);
-		PrimaryTeachingBack(teachingFileName, networkNewFileName);
-	}*/
 	void TeachingFront(const string& teachingFileName)
 	{
 		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
-		/*
-		structure.push_back(windowWidth*aminoacidsTypes);
-		structure.push_back(25);
-		structure.push_back(30);
-		structure.push_back(25);
-		structure.push_back(15);
-		structure.push_back((windowWidth / 2) * 3);
-		*/
 		base[selected-1].second.Teach(teachingSet[0], numberOfEpochs, whenReport);
 	}
 	void TeachingMiddle(const string& teachingFileName)
@@ -52,13 +38,6 @@ public:
 		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
-		/*
-		structure.push_back(windowWidth*aminoacidsTypes);
-		structure.push_back(20);
-		structure.push_back(15);
-		structure.push_back(6);
-		structure.push_back(3);
-		*/
 		base[selected-1].second.Teach(teachingSet[1], numberOfEpochs, whenReport);
 	}
 	void TeachingBack(const string& teachingFileName)
@@ -66,15 +45,6 @@ public:
 		Parser<> parser(windowWidth);
 		vector<NeuralNetwork<>::TeachingSet> teachingSet = parser.Parse(teachingFileName);
 
-		/*
-		structure.push_back(windowWidth*aminoacidsTypes);
-		structure.push_back(25);
-		structure.push_back(30);
-		structure.push_back(25);
-		structure.push_back(15);
-		structure.push_back((windowWidth / 2) * 3);
-		*/
-		
 		base[selected-1].second.Teach(teachingSet[2], numberOfEpochs, whenReport);
 	}
 
@@ -226,37 +196,9 @@ public:
 
 int main()
 {
-	/*
-	int choice;
-	cin >> choice;
-	*/
-
-	//Tester tester;
-
 	Program program;
 
 	program.Run();
-
-	//string input = "CB396_dssp_short.txt", output = "";
-	/*
-	switch (choice)
-	{
-	case 1:
-		program.PrimaryTeachingFront(input, output);
-		break;
-	case 2:
-		program.PrimaryTeachingMiddle(input, output);
-		break;
-	case 3:
-		program.PrimaryTeachingBack(input, output);
-		break;
-	default:
-		program.PrimaryTeaching(input, output);
-		break;
-	}
-	*/
-
-	system("PAUSE\n");
 
 	return 0;
 }

@@ -113,7 +113,10 @@ public:
 		network.clear();
 		network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[0]));
 		for (int i = 0; i < network[0].size(); ++i)
+		{
 			network[0][i] = Neuron<FloatingNumber>(1);
+			network[0][i].wages[0] = ABS(network[0][i].wages[0]);
+		}
 		for (int i = 1; i < structureDescription.size() - 1; ++i)
 		{
 			network.push_back(vector<Neuron<FloatingNumber> >(structureDescription[i] + 1));
