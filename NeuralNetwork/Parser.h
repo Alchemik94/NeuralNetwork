@@ -12,7 +12,9 @@ class Parser
 {
 	typedef list<pair<vector<FloatingNumber>, vector<FloatingNumber> > > TeachSet;
 
-	int windowWidth = 19;
+	int windowWidth = 9;
+
+	const int AminoacidsTypes = 19;
 
 	string Aminoacid(const string& protein, int position)
 	{
@@ -185,7 +187,7 @@ class Parser
 	}
 
 	public:
-		Parser() : windowWidth(19){}
+		Parser() : windowWidth(9){}
 		Parser(int windowWidth) : windowWidth(windowWidth){}
 		vector<TeachSet> Parse(const string& inputFilename)
 		{
@@ -193,6 +195,28 @@ class Parser
 			result.push_back(ParseFront(inputFilename));
 			result.push_back(ParseMiddle(inputFilename));
 			result.push_back(ParseBack(inputFilename));
+			return result;
+		}
+		vector<vector<FloatingNumber> > ParseSingleInput(const string& inputFilename)
+		{
+			string str;
+			fstream in;
+			in.open(inputFilename.c_str(), ios::in);
+			in >> str;
+			in.close();
+			vector<vector<FloatingNumber> > tmp = ParseProtein(str);
+			vector<vector<FloatingNumber> > result;
+			vector<FloatingNumber> tmp_num;
+			for (int i = 0; i < tmp.size(); ++i)
+			for (int j = 0; j < tmp[i].size(); ++j)
+				tmp_num.push_back(tmp[i][j]);
+			int i = 0;
+			for (; i < (windowWidth / 2) * AminoacidsTypes; ++i)
+				result[0].push_back(tmp_num[i]);
+			for (; i < tmp_num.size() - ((windowWidth / 2) * AminoacidsTypes)); ++i)
+				result[1].push_back(tmp_num[i]);
+			for (; i < tmp_num.size(); ++i)
+				result[2].push_back(tmp_num[i]);
 			return result;
 		}
 };

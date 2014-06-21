@@ -17,7 +17,7 @@ class Program
 	int whenReport;
 	const enum Command
 	{
-		unknown,create, select, list, teach, save, epochs, report, from_directory, help, quit
+		unknown,create, select, list, teach, save, epochs, report, from_directory, run_on_case, help, quit
 	};
 
 	vector<pair<string, vector<NeuralNetwork<> > > > base;
@@ -118,6 +118,14 @@ public:
 		return name;
 	}
 
+	void RunOnCase()
+	{
+		cout << "Please enter case file name.\n";
+		cout << ">> ";
+		cin >> tmpstr;
+
+	}
+
 	void Run()
 	{
 		Help();
@@ -177,6 +185,10 @@ public:
 				tmp_nns.push_back(NeuralNetwork<>(".\\" + tmpstr + "\\_back.net"));
 				base.push_back(make_pair(tmpstr, tmp_nns));
 				cout << "Added network from directory.\n";
+				break;
+			case run_on_case:
+				RunOnCase();
+				cout << "Done.\n"
 				break;
 			case help:
 				Help();
