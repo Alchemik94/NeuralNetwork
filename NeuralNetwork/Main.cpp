@@ -12,7 +12,7 @@ class Program
 {
 	Parser<> parser;
 	const int windowWidth = 9;
-	const int aminoacidsTypes = 19;
+	const int aminoacidsTypes = 19, structuresTypes = 3;
 	int numberOfEpochs;
 	int whenReport;
 	const enum Command
@@ -59,8 +59,9 @@ public:
 		cout << "6. epochs - sets the number of epochs used in training\n";
 		cout << "7. report - sets the number of epochs when report comes\n";
 		cout << "8. read from file - creates new network from selected directory\n";
-		cout << "9. help - displays this message\n";
-		cout << "10. quit - closes program\n";
+		cout << "9. work - uses network to work on single case\n";
+		cout << "10. help - displays this message\n";
+		cout << "11. quit - closes program\n";
 	}
 
 	vector<NeuralNetwork<> > GetStructure()
@@ -123,7 +124,27 @@ public:
 		cout << "Please enter case file name.\n";
 		cout << ">> ";
 		cin >> tmpstr;
+		vector<vector<long double> > protein = parser.ParseSingleInput(tmpstr);
 
+		vector<vector<long double> > result;
+		for (int i = 0; i < 3;++i)
+			result.push_back(base[selected - 1].second[i].Use(protein[i]));
+
+		cout << "Please enter output file name.\n";
+		cout << ">> ";
+		cin >> tmpstr;
+		fstream out;
+		out.open(tmpstr.c_str(), ios::out);
+		for (int i = 0; i < result.size(); ++i)
+		{
+			for (int j = 0; j < result[i].size(); ++j)
+			{
+				if ((j + 1) % structuresTypes == 0)
+					out << "\n";
+				out << result[i][j];
+			}
+		}
+		out.close();
 	}
 
 	void Run()
@@ -188,7 +209,7 @@ public:
 				break;
 			case run_on_case:
 				RunOnCase();
-				cout << "Done.\n"
+				cout << "Done.\n";
 				break;
 			case help:
 				Help();
