@@ -58,7 +58,7 @@ public:
 		cout << "5. save - saves selected network\n";
 		cout << "6. epochs - sets the number of epochs used in training\n";
 		cout << "7. report - sets the number of epochs when report comes\n";
-		cout << "8. read from file - creates new network from selected file\n";
+		cout << "8. read from file - creates new network from selected directory\n";
 		cout << "9. help - displays this message\n";
 		cout << "10. quit - closes program\n";
 	}
@@ -101,8 +101,11 @@ public:
 		cout << ">> ";
 		string training;
 		cin >> training;
+		cout << "Part 1 of 3:\n";
 		TeachingFront(training);
+		cout << "Part 2 of 3:\n";
 		TeachingMiddle(training);
+		cout << "Part 3 of 3:\n";
 		TeachingBack(training);
 	}
 
@@ -146,9 +149,10 @@ public:
 				cout << "Selected network has been taught.\n";
 				break;
 			case save:
-				base[selected - 1].second[0].Save(".\\" + GetFilename() + "\\_front.net");
-				base[selected - 1].second[1].Save(".\\" + GetFilename() + "\\_middle.net");
-				base[selected - 1].second[2].Save(".\\" + GetFilename() + "\\_back.net");
+				tmpstr = GetFilename();
+				base[selected - 1].second[0].Save(".\\" + tmpstr + "\\_front.net");
+				base[selected - 1].second[1].Save(".\\" + tmpstr + "\\_middle.net");
+				base[selected - 1].second[2].Save(".\\" + tmpstr + "\\_back.net");
 				cout << "Selected network has been saved.\n";
 				break;
 			case epochs:
