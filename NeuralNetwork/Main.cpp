@@ -141,7 +141,7 @@ public:
 			{
 				if ((j + 1) % structuresTypes == 0)
 					out << "\n";
-				out << result[i][j];
+				out << result[i][j]<<" ";
 			}
 		}
 		out.close();
