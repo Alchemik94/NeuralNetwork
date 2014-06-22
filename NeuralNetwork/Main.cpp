@@ -125,11 +125,13 @@ public:
 		cout << ">> ";
 		cin >> tmpstr;
 		vector<vector<long double> > protein = parser.ParseSingleInput(tmpstr);
-
+		cout << "Parsing done.\n";
 		vector<vector<long double> > result;
-		for (int i = 0; i < 3;++i)
-			result.push_back(base[selected - 1].second[i].Use(protein[i]));
-
+		result.push_back(base[selected - 1].second[0].Use(protein[0]));
+		for (int i = 1; i < protein.size() - 1; ++i)
+			result.push_back(base[selected - 1].second[1].Use(protein[i]));
+		result.push_back(base[selected - 1].second[2].Use(protein[protein.size()-1]));
+		cout << "Calculations done.\n";
 		cout << "Please enter output file name.\n";
 		cout << ">> ";
 		cin >> tmpstr;
@@ -139,9 +141,11 @@ public:
 		{
 			for (int j = 0; j < result[i].size(); ++j)
 			{
+				out << result[i][j];
 				if ((j + 1) % structuresTypes == 0)
 					out << "\n";
-				out << result[i][j]<<" ";
+				else
+					out << " ";
 			}
 		}
 		out.close();

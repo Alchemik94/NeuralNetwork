@@ -205,27 +205,17 @@ class Parser
 			in >> str;
 			in.close();
 			vector<vector<FloatingNumber> > tmp = ParseProtein(str);
-			vector<vector<FloatingNumber> > result;
 			vector<FloatingNumber> tmp_num;
 			for (int i = 0; i < tmp.size(); ++i)
 				for (int j = 0; j < tmp[i].size(); ++j)
 					tmp_num.push_back(tmp[i][j]);
-			int i = 0;
-			while (i < (windowWidth / 2) * AminoacidsTypes)
+			tmp.clear();
+			vector<vector<FloatingNumber> > result(tmp_num.size()-windowWidth*AminoacidsTypes);
+			for (int i = 0; i < tmp_num.size() - windowWidth*AminoacidsTypes; ++i)
 			{
-				result[0].push_back(tmp_num[i]);
-				++i;
-			};
-			while(i < tmp_num.size() - ((windowWidth / 2) * AminoacidsTypes))
-			{
-				result[1].push_back(tmp_num[i]);
-				++i;
-			};
-			while (i < tmp_num.size())
-			{
-				result[2].push_back(tmp_num[i]);
-				++i;
-			};
+				for (int j = 0; j < windowWidth*AminoacidsTypes; ++j)
+					result[i].push_back(tmp_num[i+j]);
+			}
 			return result;
 		}
 };
