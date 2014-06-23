@@ -189,7 +189,7 @@ public:
 		return result;
 	}
 
-	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs, bool verbose = false)
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs)
 	{
 		auto it = teachingSet.begin();
 		FloatingNumber learningCoefficient;
@@ -199,16 +199,12 @@ public:
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
 			{
-				if (verbose)
-				{
-					cout << "Case " << ++j << "out of " << teachingSet.size() << ".\n";
-				}
 				TeachCase(it->first, it->second, learningCoefficient);
 			}
 		}
 	}
 
-	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs, int whenReport, bool verbose = false)
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, int epochs, int whenReport)
 
 	{
 		cout.precision(10);
@@ -225,16 +221,12 @@ public:
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
 			{
-				if (verbose)
-				{
-					cout << "Case " << ++j << "out of " << teachingSet.size() << ".\n";
-				}
 				TeachCase(it->first, it->second, learningCoefficient);
 			}
 		}
 	}
 
-	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, FloatingNumber error, int whenReport, bool verbose = false)
+	void Teach(list<pair<vector<FloatingNumber>, vector<FloatingNumber> > >& teachingSet, FloatingNumber error, int whenReport)
 
 	{
 		cout.precision(10);
@@ -253,10 +245,6 @@ public:
 			learningCoefficient = LearningCoefficientForIthEpoch(i, epochs);
 			for (it = teachingSet.begin(); it != teachingSet.end(); ++it)
 			{
-				if (verbose)
-				{
-					cout << "Case " << ++j << "out of " << teachingSet.size() << ".\n";
-				}
 				TeachCase(it->first, it->second, learningCoefficient);
 			}
 			++i;

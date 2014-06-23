@@ -1,6 +1,5 @@
+#include "Parser.h"
 #include "NeuralNetwork.h"
-
-#include "Tester.h"
 
 #include <cstdlib>
 #include <string>
@@ -26,7 +25,6 @@ class Program
 	string tmpstr;
 	vector<NeuralNetwork<> > tmp_nns;
 
-public:
 	void TeachingFront(const string& teachingFileName)
 	{
 		Parser<> parser(windowWidth);
@@ -151,6 +149,7 @@ public:
 		out.close();
 	}
 
+public:
 	void Run()
 	{
 		Help();
