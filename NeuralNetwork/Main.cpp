@@ -7,6 +7,9 @@
 
 using namespace std;
 
+/// <summary>
+/// Simple class containing whole program work. Made to make sure that every variable can be used in functions.
+/// </summary>
 class Program
 {
 	Parser<> parser;
@@ -25,6 +28,10 @@ class Program
 	string tmpstr;
 	vector<NeuralNetwork<> > tmp_nns;
 
+	/// <summary>
+	/// Teaches the front part of selected neural network. Reads everything from file, parses and then teaches the network.
+	/// </summary>
+	/// <param name="teachingFileName">Name of file containing teaching set as proteins and their secondary structure.</param>
 	void TeachingFront(const string& teachingFileName)
 	{
 		Parser<> parser(windowWidth);
@@ -32,6 +39,10 @@ class Program
 
 		base[selected-1].second[0].Teach(teachingSet[0], numberOfEpochs, whenReport);
 	}
+	/// <summary>
+	/// Teaches the middle part of selected neural network. Reads everything from file, parses and then teaches the network.
+	/// </summary>
+	/// <param name="teachingFileName">Name of file containing teaching set as proteins and their secondary structure.</param>
 	void TeachingMiddle(const string& teachingFileName)
 	{
 		Parser<> parser(windowWidth);
@@ -39,6 +50,10 @@ class Program
 
 		base[selected-1].second[1].Teach(teachingSet[1], numberOfEpochs, whenReport);
 	}
+	/// <summary>
+	/// Teaches the ending part of selected neural network. Reads everything from file, parses and then teaches the network.
+	/// </summary>
+	/// <param name="teachingFileName">Name of file containing teaching set as proteins and their secondary structure.</param>
 	void TeachingBack(const string& teachingFileName)
 	{
 		Parser<> parser(windowWidth);
@@ -47,6 +62,9 @@ class Program
 		base[selected-1].second[2].Teach(teachingSet[2], numberOfEpochs, whenReport);
 	}
 
+	/// <summary>
+    /// Prints out options to use by user.
+    /// </summary>
 	void Help()
 	{
 		cout << "1. create - creates new neural network\n";
@@ -62,6 +80,10 @@ class Program
 		cout << "11. quit - closes program\n";
 	}
 
+	/// <summary>
+	/// Asks user to insert a structure of neural network.
+	/// </summary>
+	/// <returns>Vector used to create new neural vector</returns>
 	vector<NeuralNetwork<> > GetStructure()
 	{
 		vector<NeuralNetwork<> > result;
@@ -85,6 +107,10 @@ class Program
 		return result;
 	}
 
+	/// <summary>
+	/// Asks user to give the name for new neural network
+	/// </summary>
+	/// <returns>Name of new network</returns>
 	string GetName()
 	{
 		cout << "Enter name for the new network.\n";
@@ -94,6 +120,9 @@ class Program
 		return name;
 	}
 
+	/// <summary>
+	/// Teaches every part of user-side network.
+	/// </summary>
 	void Teach()
 	{
 		cout << "Enter training file name.\n";
@@ -108,15 +137,22 @@ class Program
 		TeachingBack(training);
 	}
 
+	/// <summary>
+	/// Asks user to give the name of network directory.
+	/// </summary>
+	/// <returns>Network directory name</returns>
 	string GetFilename()
 	{
 		string name;
-		cout << "Enter name of the network file.\n";
+		cout << "Enter name of the network directory.\n";
 		cout << ">> ";
 		cin >> name;
 		return name;
 	}
 
+	/// <summary>
+    /// Uses selected neural network to work on a single case. Asks user for case filename, parses it, predicts secondary structure and saves it.
+    /// </summary>
 	void RunOnCase()
 	{
 		cout << "Please enter case file name.\n";
@@ -150,6 +186,9 @@ class Program
 	}
 
 public:
+	/// <summary>
+    /// Runs the program.
+    /// </summary>
 	void Run()
 	{
 		Help();
